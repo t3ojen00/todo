@@ -1,10 +1,12 @@
 import { expect } from "chai";
+import { before } from "mocha";
+import fetch from "node-fetch";
 
 const base_url = 'http://localhost:3001/';
 
 describe('GET Tasks', () =>{
     it ('should get all tasks', async ()=>{
-        const response = await fetch ('http://localhost:3001/')
+        const response = await fetch (base_url)
         const data = await response.json()
 
         expect(response.status).to.equal(200)
@@ -34,7 +36,7 @@ describe('POST task', () =>{
             headers: {
                 'Content-Type':'application/json'
             },
-            body: JSON.stringify({'description': null})
+            body: JSON.stringify({'description': ''})
         })
         const data = await response.json()
         expect(response.status).to.equal(500)
@@ -56,7 +58,7 @@ describe('DELETE task', ()=>{
     })
 
     it('should not delete a task with SQL injection', async()=>{
-        const response = await fetch(base_url + '/delete/id=0 or id > 0', {
+        const response = await fetch(base_url + 'delete/1 OR 1=1', {
             method: 'delete'
         })
         const data = await response.json ()
@@ -65,3 +67,43 @@ describe('DELETE task', ()=>{
         expect(data).to.include.all.keys('error')
     })
 })
+
+
+describe("POST register", () => {
+    before(() => {
+      initializeTestDb();
+    });
+    const email = "test@fool.com";
+    const password = "test123";
+  
+    it("should register with valid email and password", async () => {
+      const response = await fetch(base_url + "user/register", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+      const data = await response.json();
+      expect(response.status).to.equal(201, data.error);
+      expect(data).to.be.an("object");
+      expect(data).to.include.all.keys("id", "email");
+    });
+  
+    /*it("should not register with less than 8 character password", async () => {
+      const email = "register@foo.com";
+      const password = "short1";
+      const response = await fetch(base_url + "user/register", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+  
+      const data = await response.json();
+      expect(response.status).to.equal(400, data.error);
+      expect(data).to.be.an("object");
+      expect(data).to.include.all.keys("error");
+    });*/
+  });

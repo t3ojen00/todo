@@ -1,10 +1,10 @@
 import pkg from 'pg';
 import dotenv from 'dotenv';
-
-const environment = process.env.NODE_ENV
-dotenv.config()
-
 const { Pool } = pkg;
+
+dotenv.config()
+const environment = process.env.NODE_ENV
+
 
 const openDb = () => {
     const pool = new Pool({
@@ -18,4 +18,5 @@ const openDb = () => {
 }
 
 const pool = openDb()
+
 export { pool }
