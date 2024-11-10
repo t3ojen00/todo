@@ -6,3 +6,5 @@ create table task(
 insert into task (description) values ('My test task');
 
 insert into task (description) values ('test2');
+
+insert into task (description) values ('test3');

@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "mocha *.test.js",
-    "devStart": "nodemon index.js"
+    "test": "NODE_ENV=mocha *.test.js",
+    "devStart": "NODE_ENV=development nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +13,8 @@
   "devDependencies": {
     "chai": "^5.1.2",
     "mocha": "^10.8.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
   }
 }
