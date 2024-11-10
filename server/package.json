@@ -4,14 +4,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=mocha *.test.js",
-    "devStart": "NODE_ENV=development nodemon index.js"
+    "testStart": "NODE_ENV=test node index.js",
+    "devStart": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "mocha *.test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^5.1.2",
+    "cross-env": "^7.0.3",
     "mocha": "^10.8.2"
   },
   "dependencies": {
